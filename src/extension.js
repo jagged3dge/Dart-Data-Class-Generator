@@ -1049,7 +1049,7 @@ class DataClassGenerator {
         method += '}) {\n';
         method += `  return ${clazz.type}(\n`;
 
-        const withNullable = readSetting('constructor.copyWithNullables');
+        const withNullable = readSetting('copyWithNullables.enabled');
         
         for (let p of clazz.properties) {
             if (withNullable && p.isNullable) {
