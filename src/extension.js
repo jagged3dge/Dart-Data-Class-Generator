@@ -1042,14 +1042,20 @@ class DataClassGenerator {
      * @param {DartClass} clazz
      */
     insertCopyWith(clazz) {
+        const withNullable = readSetting('copyWithNullables.enabled');
         let method = clazz.type + ' copyWith({\n';
+        
         for (const prop of clazz.properties) {
-            method += `  ${prop.type}? ${prop.name},\n`;
+            if (withNullable && prop.isNullable) {
+                method += `  Nullable<${prop.type}>? ${prop.name},\n`;
+            } else {
+                method += `  ${prop.type}? ${prop.name},\n`;
+            }
         }
+        
         method += '}) {\n';
         method += `  return ${clazz.type}(\n`;
 
-        const withNullable = readSetting('copyWithNullables.enabled');
         
         for (let p of clazz.properties) {
             if (withNullable && p.isNullable) {
