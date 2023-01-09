@@ -1053,7 +1053,7 @@ class DataClassGenerator {
         
         for (let p of clazz.properties) {
             if (withNullable && p.isNullable) {
-              method += `    ${clazz.hasNamedConstructor ? `<${p.name}>: ` : ''}${p.name} == null ? this.${p.name} : ${p.name}.value,\n`;
+              method += `    ${clazz.hasNamedConstructor ? `${p.name}: ` : ''}${p.name} == null ? this.${p.name} : ${p.name}.value,\n`;
             } else {
               method += `    ${clazz.hasNamedConstructor ? `${p.name}: ` : ''}${
                 p.name
@@ -1080,7 +1080,7 @@ class DataClassGenerator {
 
         for (let p of clazz.properties) {
             if (p.isNullable) {
-                method += `    ${clazz.hasNamedConstructor ? `<${p.name}>: ` : ''}${p.name} == null ? this.${p.name} : ${p.name}.value,\n`;
+                method += `    ${clazz.hasNamedConstructor ? `${p.name}: ` : ''}${p.name} == null ? this.${p.name} : ${p.name}.value,\n`;
             } else{
                 method += `    ${clazz.hasNamedConstructor ? `${p.name}: ` : ''}${p.name} ?? this.${p.name},\n`;
             }
