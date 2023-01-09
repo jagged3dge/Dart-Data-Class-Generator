@@ -1,9 +1,9 @@
 {
-	"name": "dart-data-class-generator",
+	"name": "dart-data-class-generator-nullables",
 	"displayName": "Dart Data Class Generator",
 	"description": "Create dart data classes easily, fast and without writing boilerplate or running code generation.",
-	"publisher": "hzgood",
-	"version": "0.5.4",
+	"publisher": "jagged3dge",
+	"version": "0.6.4",
 	"engines": {
 		"vscode": "^1.37.0"
 	},
@@ -19,9 +19,14 @@
 		"dart",
 		"data class generator"
 	],
-	"author": {
-		"name": "hzgood"
-	},
+	"authors": [
+		{
+			"name": "hzgood"	
+		},
+		{
+			"name": "jagged3dge"
+		}
+	],
 	"categories": [
 		"Programming Languages",
 		"Other"

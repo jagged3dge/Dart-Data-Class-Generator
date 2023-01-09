@@ -1062,6 +1062,31 @@ class DataClassGenerator {
     /**
      * @param {DartClass} clazz
      */
+    insertCopyWithNullables(clazz) {
+        let method = clazz.type + ' copyWith({\n';
+        for (const prop of clazz.properties) {
+            method += `  Nullable<${prop.type}>? ${prop.name},\n`;
+        }
+        method += '}) {\n';
+        method += `  return ${clazz.type}(\n`;
+
+        for (let p of clazz.properties) {
+            if (p.isNullable) {
+                method += `    ${clazz.hasNamedConstructor ? `<${p.name}>: ` : ''}${p.name} == null ? this.${p.name} : ${p.name}.value,\n`;
+            } else{
+                method += `    ${clazz.hasNamedConstructor ? `${p.name}: ` : ''}${p.name} ?? this.${p.name},\n`;
+            }
+        }
+
+        method += '  );\n'
+        method += '}';
+
+        this.appendOrReplace('copyWithNullables', method, `${clazz.name} copyWith(`, clazz);
+    }
+
+    /**
+     * @param {DartClass} clazz
+     */
     insertToMap(clazz) {
         let props = clazz.properties;
         /**
@@ -2040,6 +2065,7 @@ class DataClassCodeActions {
             if (!this.clazz.isAbstract) {
                 if (readSetting('copyWith.enabled'))
                     codeActions.push(this.createCopyWithFix());
+                    codeActions.push(this.createCopyWithNullablesFix());
                 if (readSettings(['toMap.enabled', 'fromMap.enabled', 'toJson.enabled', 'fromJson.enabled']))
                     codeActions.push(this.createSerializationFix());
             }
@@ -2116,6 +2142,10 @@ class DataClassCodeActions {
 
     createCopyWithFix() {
         return this.constructQuickFix('copyWith', 'Generate copyWith');
+    }
+
+    createCopyWithNullablesFix() {
+        return this.constructQuickFix('copyWithNullables', 'Generate copyWith with Nullables');
     }
 
     createSerializationFix() {
